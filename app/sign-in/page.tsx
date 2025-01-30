@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
   email: string;
+  clubNumber: number;
 };
 
 export const SignIn = () => {
@@ -38,6 +39,22 @@ export const SignIn = () => {
           />
           {errors.email && (
             <span className="text-red-500">{errors.email.message}</span>
+          )}
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="clubNumber"
+          >
+            Last name
+          </label>
+          <input
+            {...register("clubNumber", { required: true })}
+            id="clubNumber"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          {errors.clubNumber && (
+            <span className="text-red-500">This field is required</span>
           )}
         </div>
         <div className="mt-8">

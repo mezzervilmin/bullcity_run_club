@@ -2,8 +2,9 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import classNames from "classnames";
+import { addUser } from "../actions";
 
-type Inputs = {
+export type SignUpInfo = {
   firstName: string;
   lastName: string;
   email: string;
@@ -17,27 +18,31 @@ export const SignUp = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  } = useForm<SignUpInfo>();
   const [disclaimerAccepted, setDisclaimerAccepted] = useState(false);
+
+  const onSubmit: SubmitHandler<SignUpInfo> = async (data) => {
+    await addUser({ ...data, dob: new Date(data.dob) });
+  };
+
   const openDisclaimer = () => {
-    alert(
-      `As a participant in Bull City Run Club (the event), 
-    I do hereby waive and forever release any and all rights and claims for damages 
-    or injuries that I may have against the Bull City Running Company LLC and all of their 
-    agents assisting with the event, sponsors and their representatives, volunteers and 
-    employees for any and all injuries to me or my personal property. This release includes 
-    all injuries and/or damages suffered by me before, during, or after participating in the event. 
-    I recognize, intend and understand that this release is binding on my heirs, executors, 
-    administrators, or assignees. I know that running and walking is a potentially 
-    hazardous activity. I should not participate unless I am medically able to do so and 
-    properly trained. I assume all risks associated with walking and  running in this 
-    event including, but not limited to: falls, contact with other participants, the 
-    effects of weather, traffic, and route conditions, man-made and natural hazards, 
-    and I waive any and all claims which I might have based on any of those and other 
-    risks typically found in walking or running on roads, sidewalks, and trails. 
-    I acknowledge all such risks and they are known and understood by me.`
-    );
+    // alert(
+    //   `As a participant in Bull City Run Club (the event),
+    // I do hereby waive and forever release any and all rights and claims for damages
+    // or injuries that I may have against the Bull City Running Company LLC and all of their
+    // agents assisting with the event, sponsors and their representatives, volunteers and
+    // employees for any and all injuries to me or my personal property. This release includes
+    // all injuries and/or damages suffered by me before, during, or after participating in the event.
+    // I recognize, intend and understand that this release is binding on my heirs, executors,
+    // administrators, or assignees. I know that running and walking is a potentially
+    // hazardous activity. I should not participate unless I am medically able to do so and
+    // properly trained. I assume all risks associated with walking and  running in this
+    // event including, but not limited to: falls, contact with other participants, the
+    // effects of weather, traffic, and route conditions, man-made and natural hazards,
+    // and I waive any and all claims which I might have based on any of those and other
+    // risks typically found in walking or running on roads, sidewalks, and trails.
+    // I acknowledge all such risks and they are known and understood by me.`
+    // );
     setDisclaimerAccepted(true);
   };
   return (
