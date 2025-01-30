@@ -1,9 +1,10 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { getByEmail } from "../actions";
+import { useState } from "react";
 
 type Inputs = {
   email: string;
-  clubNumber: number;
 };
 
 export const SignIn = () => {
@@ -13,7 +14,11 @@ export const SignIn = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const [errorMessage, setErrorMessage] = useState("");
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    const res = await getByEmail(data.email);
+    setErrorMessage(res);
+  };
   return (
     <div className="mx-4 lg:w-1/2 lg:mx-auto">
       <div className="text-7xl mb-8">Sign In</div>
@@ -39,22 +44,6 @@ export const SignIn = () => {
           />
           {errors.email && (
             <span className="text-red-500">{errors.email.message}</span>
-          )}
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="clubNumber"
-          >
-            Last name
-          </label>
-          <input
-            {...register("clubNumber", { required: true })}
-            id="clubNumber"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          />
-          {errors.clubNumber && (
-            <span className="text-red-500">This field is required</span>
           )}
         </div>
         <div className="mt-8">
