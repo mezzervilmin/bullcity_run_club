@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import classNames from "classnames";
 import { addUser } from "../actions";
+import { openSans, poppinsHeavy } from "../fonts";
 
 export type SignUpInfo = {
   firstName: string;
@@ -47,8 +48,13 @@ export default function SignUp() {
   };
   return (
     <div className="mx-4 lg:w-1/2 lg:mx-auto">
-      <div className="text-6xl my-8 mx-auto w-fit">Sign up</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <div className={`text-6xl my-8 mx-auto w-fit ${poppinsHeavy.className}`}>
+        Sign up
+      </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className={`${openSans.className}`}
+      >
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -176,7 +182,7 @@ export default function SignUp() {
           <input
             type="submit"
             className={classNames(
-              "bg-green-500 hover:bg-green-700 text-white font-bold py-2 w-full rounded",
+              "bg-blue-800 hover:bg-blue-950 text-white font-bold py-6 w-full rounded",
               { "opacity-50 cursor-not-allowed": !disclaimerAccepted }
             )}
           />

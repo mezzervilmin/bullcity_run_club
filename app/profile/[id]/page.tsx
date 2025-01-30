@@ -1,5 +1,6 @@
 import { getUser } from "@/app/actions";
 import CheckInButton from "./checkInButton";
+import { poppinsHeavy } from "@/app/fonts";
 
 export default async function Profile({
   params,
@@ -23,11 +24,13 @@ export default async function Profile({
   };
 
   return (
-    <div className="mx-4 flex flex-col items-center h-screen mt-48">
-      <div className="text-4xl">{`Welcome back ${user?.firstName}`}</div>
-      <div className="flex flex-col justify-center items-center mt-12">
-        <div className="w-fit text-7xl">{user?.visits}</div>
-        <div className="w-fit text-2xl">Number of runs</div>
+    <div
+      className={`mx-4 flex flex-col items-center h-screen mt-64 ${poppinsHeavy.className}`}
+    >
+      <div className="text-4xl whitespace-pre-line text-center">{`Welcome back\n${user?.firstName}`}</div>
+      <div className="flex flex-col justify-center items-center text-center mt-12">
+        <div className="w-fit text-8xl text-blue-800">{user?.visits}</div>
+        <div className="w-fit text-3xl mt-2">Run count (so far...)</div>
       </div>
       {new Date().getDay() === 3 && user?.id && !checkedInToday() && (
         <div className="mt-8 w-full">

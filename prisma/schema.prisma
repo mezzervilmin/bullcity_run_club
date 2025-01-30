@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  email       String    @unique
-  firstName   String
-  lastName    String
-  phone       String?
-  dob         DateTime?
-  shirtSize   String
-  visits      Int       @default(0)
-  code        Int?
-  lastCheckIn DateTime?
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  firstName    String
+  lastName     String
+  phone        String?
+  dob          DateTime?
+  shirtSize    String
+  visits       Int       @default(0)
+  code         Int?
+  lastCheckIn  DateTime?
+  acceptWaiver Boolean   @default(false)
 }

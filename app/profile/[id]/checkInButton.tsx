@@ -8,7 +8,7 @@ export const CheckInButton: React.FC<{ id: number }> = ({ id }) => {
   };
   return (
     <button
-      className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 w-full rounded"
+      className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-6 w-full rounded"
       onClick={checkIn}
     >
       Check in!
