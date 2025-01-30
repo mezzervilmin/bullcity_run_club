@@ -31,6 +31,8 @@ export const getByEmail = async (email: string) => {
   });
   if (!user) {
     return "Email not found";
+  } else if (!user.acceptWaiver) {
+    redirect(`/waiver/${user?.id}`);
   }
   redirect(`/profile/${user?.id}`);
 };
