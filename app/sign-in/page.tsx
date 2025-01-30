@@ -1,7 +1,6 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { getByEmail } from "../actions";
-import { useState } from "react";
 
 type Inputs = {
   email: string;
@@ -14,10 +13,10 @@ export const SignIn = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
-  const [errorMessage, setErrorMessage] = useState("");
+  //   const [errorMessage, setErrorMessage] = useState("");
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const res = await getByEmail(data.email);
-    setErrorMessage(res);
+    await getByEmail(data.email);
+    // setErrorMessage(res);
   };
   return (
     <div className="mx-4 lg:w-1/2 lg:mx-auto">
