@@ -8,7 +8,7 @@ export const addUser = async (newUser: SignUpInfo) => {
   const user = await prisma.user.create({
     data: { ...newUser },
   });
-  redirect(`/profile/${user.id}`);
+  redirect(`/waiver/${user.id}`);
 };
 
 export const getUser = async (id: number) => {
@@ -51,4 +51,19 @@ export const checkInUser = async (id: number) => {
     return "Issue checking in, please speak to Run Club employee";
   }
   revalidatePath(`/profile/${user.id}`);
+};
+
+export const userAcceptWaiver = async (id: number) => {
+  const user = await prisma.user.update({
+    where: {
+      id,
+    },
+    data: {
+      acceptWaiver: true,
+    },
+  });
+  if (!user) {
+    return "Issue accepting waiver, please speak to Run Club employee";
+  }
+  redirect(`/profile/${user.id}`);
 };
