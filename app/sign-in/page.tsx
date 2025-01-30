@@ -6,7 +6,7 @@ type Inputs = {
   email: string;
 };
 
-export const SignIn = () => {
+export default function SignIn() {
   const {
     register,
     handleSubmit,
@@ -54,6 +54,4 @@ export const SignIn = () => {
       </form>
     </div>
   );
-};
-
-export default SignIn;
+}

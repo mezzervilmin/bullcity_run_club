@@ -13,7 +13,7 @@ export type SignUpInfo = {
   shirtSize: string;
 };
 
-export const SignUp = () => {
+export default function SignUp() {
   const {
     register,
     handleSubmit,
@@ -184,6 +184,4 @@ export const SignUp = () => {
       </form>
     </div>
   );
-};
-
-export default SignUp;
+}

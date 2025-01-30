@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export const Home = () => {
+export default function Home() {
   return (
     <div>
       <div className="text-4xl mx-auto w-fit">Welcome to Run Club</div>
@@ -20,6 +20,4 @@ export const Home = () => {
       </div>
     </div>
   );
-};
-
-export default Home;
+}

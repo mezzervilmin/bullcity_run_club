@@ -1,11 +1,11 @@
 import { getUser } from "@/app/actions";
 import CheckInButton from "./checkInButton";
 
-export const Profile = async ({
+export default async function Profile({
   params,
 }: {
   params: Promise<{ id: string }>;
-}) => {
+}) {
   const id = (await params).id;
   const user = await getUser(parseInt(id));
   const checkedInToday = () => {
@@ -36,6 +36,4 @@ export const Profile = async ({
       )}
     </div>
   );
-};
-
-export default Profile;
+}
