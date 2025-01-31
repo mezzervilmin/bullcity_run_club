@@ -24,14 +24,14 @@ export default function SignUp() {
   };
   return (
     <div className="mx-4 lg:w-1/2 lg:mx-auto">
-      <div className={`text-6xl my-8 mx-auto w-fit ${poppinsHeavy.className}`}>
+      <div className={`text-6xl my-4 mx-auto w-fit ${poppinsHeavy.className}`}>
         Sign up
       </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className={`${openSans.className}`}
       >
-        <div className="mb-4">
+        <div className="mb-2">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="firstName"
@@ -47,7 +47,7 @@ export default function SignUp() {
             <span className="text-red-500">This field is required</span>
           )}
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="lastName"
@@ -63,7 +63,7 @@ export default function SignUp() {
             <span className="text-red-500">This field is required</span>
           )}
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="email"
@@ -86,7 +86,7 @@ export default function SignUp() {
             <span className="text-red-500">{errors.email.message}</span>
           )}
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="phone"
@@ -103,7 +103,7 @@ export default function SignUp() {
             <span className="text-red-500">This field is required</span>
           )}
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="dob"
@@ -120,32 +120,30 @@ export default function SignUp() {
             <span className="text-red-500">This field is required</span>
           )}
         </div>
-        <div className="mb-4 grid grid-cols-2 gap-4">
-          <div>
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="shirtSize"
-            >
-              Shirt size
-            </label>
-            <select
-              {...register("shirtSize", { required: true })}
-              id="shirtSize"
-              className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            >
-              <option value="xsmall">x-small</option>
-              <option value="small">small</option>
-              <option value="medium">medium</option>
-              <option value="large">large</option>
-              <option value="xlarge">x-large</option>
-              <option value="xxlarge">xx-large</option>
-            </select>
-            {errors.shirtSize && (
-              <span className="text-red-500">This field is required</span>
-            )}
-          </div>
+        <div className="mb-2">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="shirtSize"
+          >
+            Shirt size
+          </label>
+          <select
+            {...register("shirtSize", { required: true })}
+            id="shirtSize"
+            className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          >
+            <option value="xsmall">x-small</option>
+            <option value="small">small</option>
+            <option value="medium">medium</option>
+            <option value="large">large</option>
+            <option value="xlarge">x-large</option>
+            <option value="xxlarge">xx-large</option>
+          </select>
+          {errors.shirtSize && (
+            <span className="text-red-500">This field is required</span>
+          )}
         </div>
-        <div className="mt-8">
+        <div className="mt-4">
           <input
             type="submit"
             className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-6 w-full rounded"

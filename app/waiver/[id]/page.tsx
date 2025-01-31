@@ -13,7 +13,7 @@ export default function Waiver({
     await userAcceptWaiver(parseInt(id));
   };
   return (
-    <div className="mt-8 mx-6">
+    <div className="mt-2 mx-4">
       <div className={`text-3xl text-blue-800 mb-4 ${poppinsHeavy.className}`}>
         Liability Waiver
       </div>
