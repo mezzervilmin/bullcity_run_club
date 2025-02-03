@@ -8,6 +8,9 @@ export const addUser = async (newUser: SignUpInfo) => {
   const user = await prisma.user.create({
     data: { ...newUser },
   });
+  if(!user) {
+    return "Issue creating user. Please speak to Run Club Employee."
+  }
   redirect(`/waiver/${user.id}`);
 };
 
@@ -30,7 +33,7 @@ export const getByEmail = async (email: string) => {
     },
   });
   if (!user) {
-    return "Email not found";
+    return "Email not found.";
   } else if (!user.acceptWaiver) {
     redirect(`/waiver/${user?.id}`);
   }

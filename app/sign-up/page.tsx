@@ -2,6 +2,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { addUser } from "../actions";
 import { openSans, poppinsHeavy } from "../fonts";
+import { useState } from "react";
 
 export type SignUpInfo = {
   firstName: string;
@@ -19,8 +20,13 @@ export default function SignUp() {
     formState: { errors },
   } = useForm<SignUpInfo>();
 
+  const [errorMessage, setErrorMessage] = useState("");
+
   const onSubmit: SubmitHandler<SignUpInfo> = async (data) => {
-    await addUser({ ...data, dob: new Date(data.dob) });
+    const res = await addUser({ ...data, dob: new Date(data.dob) });
+    if (res) {
+      setErrorMessage(res);
+    }
   };
   return (
     <div className="mx-4 lg:w-1/2 lg:mx-auto">
@@ -148,6 +154,7 @@ export default function SignUp() {
             type="submit"
             className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-6 w-full rounded"
           />
+          {errorMessage && <span className="text-red-500">{errorMessage}</span>}
         </div>
       </form>
     </div>

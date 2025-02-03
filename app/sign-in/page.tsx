@@ -1,7 +1,9 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useState } from "react";
 import { getByEmail } from "../actions";
 import { openSans, poppinsHeavy } from "../fonts";
+import Link from "next/link";
 
 type Inputs = {
   email: string;
@@ -14,10 +16,10 @@ export default function SignIn() {
     formState: { errors },
   } = useForm<Inputs>();
 
-  //   const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    await getByEmail(data.email);
-    // setErrorMessage(res);
+    const res = await getByEmail(data.email);
+    setErrorMessage(res);
   };
   return (
     <div className="flex flex-col items-center h-screen mx-4 lg:w-1/2 lg:mx-auto">
@@ -50,6 +52,14 @@ export default function SignIn() {
             />
             {errors.email && (
               <span className="text-red-500">{errors.email.message}</span>
+            )}
+            {errorMessage && (
+              <div className="text-red-500">
+                <span>{`${errorMessage} Sign up `}</span>
+                <Link href="/sign-up" className="text-blue-800 underline">
+                  here!
+                </Link>
+              </div>
             )}
           </div>
           <div className="mt-8">

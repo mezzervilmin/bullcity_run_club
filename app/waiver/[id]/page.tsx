@@ -2,15 +2,19 @@
 
 import { userAcceptWaiver } from "@/app/actions";
 import { openSans, poppinsHeavy } from "@/fonts";
+import { useState } from "react";
 
 export default function Waiver({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
+  const [errorMessage, setErrorMessage] = useState("");
   const acceptWaiver = async () => {
     const id = (await params).id;
-    await userAcceptWaiver(parseInt(id));
+    const res = await userAcceptWaiver(parseInt(id));
+    if (res) {
+    }
   };
   return (
     <div className="mt-2 mx-4">
@@ -40,6 +44,7 @@ export default function Waiver({
       >
         Accept Conditions
       </button>
+      {errorMessage && <span className="text-red-500">{errorMessage}</span>}
     </div>
   );
 }
