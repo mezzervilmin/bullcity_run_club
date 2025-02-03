@@ -14,6 +14,7 @@ export default function Waiver({
     const id = (await params).id;
     const res = await userAcceptWaiver(parseInt(id));
     if (res) {
+      setErrorMessage(res);
     }
   };
   return (
