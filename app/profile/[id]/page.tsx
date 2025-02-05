@@ -33,7 +33,7 @@ export default async function Profile({
           <div className="w-fit text-8xl text-blue-800">{user?.visits}</div>
           <div className="w-fit text-3xl mt-2">Run count (so far...)</div>
         </div>
-        {new Date().getDay() === 4 && user?.id && !checkedInToday() && (
+        {new Date().getDay() === 3 && user?.id && !checkedInToday() && (
           <div className="mt-8 w-full">
             <CheckInButton id={user.id} />
           </div>
