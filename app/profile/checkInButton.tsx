@@ -2,7 +2,7 @@
 
 import { checkInUser } from "@/app/actions";
 
-export const CheckInButton: React.FC<{ id: number }> = ({ id }) => {
+export const CheckInButton: React.FC<{ id: string }> = ({ id }) => {
   const checkIn = async () => {
     await checkInUser(id);
   };

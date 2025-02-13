@@ -12,7 +12,7 @@ export default function Waiver({
   const [errorMessage, setErrorMessage] = useState("");
   const acceptWaiver = async () => {
     const id = (await params).id;
-    const res = await userAcceptWaiver(parseInt(id));
+    const res = await userAcceptWaiver(id);
     if (res) {
       setErrorMessage(res);
     }

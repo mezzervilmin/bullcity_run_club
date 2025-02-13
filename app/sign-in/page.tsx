@@ -1,12 +1,14 @@
 "use client";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import { getByEmail } from "../actions";
 import { openSans, poppinsHeavy } from "../fonts";
 import Link from "next/link";
+import { signInUser } from "../actions";
+import { useRouter } from "next/navigation";
 
 type Inputs = {
   email: string;
+  password: string;
 };
 
 export default function SignIn() {
@@ -15,11 +17,16 @@ export default function SignIn() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
+  const router = useRouter();
 
   const [errorMessage, setErrorMessage] = useState("");
-  const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const res = await getByEmail(data.email);
-    setErrorMessage(res);
+  const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
+    const { error } = await signInUser(email, password);
+    if (error) {
+      setErrorMessage(`${error}`);
+    } else {
+      router.push("/profile");
+    }
   };
   return (
     <div className="flex flex-col items-center h-screen mx-4 lg:w-1/2 lg:mx-auto">
@@ -53,6 +60,23 @@ export default function SignIn() {
             {errors.email && (
               <span className="text-red-500">{errors.email.message}</span>
             )}
+            <div className="mb-2">
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                {...register("password", { required: true })}
+                id="password"
+                type="password"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              />
+              {errors.password && (
+                <span className="text-red-500">This field is required</span>
+              )}
+            </div>
             {errorMessage && (
               <div className="text-red-500">
                 <span>{`${errorMessage} Sign up `}</span>

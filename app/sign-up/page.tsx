@@ -11,6 +11,7 @@ export type SignUpInfo = {
   phone: string;
   dob: Date;
   shirtSize: string;
+  password: string;
 };
 
 export default function SignUp() {
@@ -123,6 +124,23 @@ export default function SignUp() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.dob && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
+        <div className="mb-2">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            {...register("password", { required: true })}
+            id="password"
+            type="password"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          {errors.password && (
             <span className="text-red-500">This field is required</span>
           )}
         </div>
