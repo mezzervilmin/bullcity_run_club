@@ -85,7 +85,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
     callbacks: {
       async jwt({ token, user, account }) {
         if (account?.provider === "credentials") {
-          const expires = new Date(Date.now() + 60 * 60 * 24 * 30 * 1000);
+          const expires = new Date(Date.now() + 60 * 60 * 24 * 1000);
           const sessionToken = randomUUID();
 
           const session = await adapter.createSession!({
