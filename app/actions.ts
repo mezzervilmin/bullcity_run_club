@@ -7,6 +7,7 @@ import { AuthError } from "next-auth";
 import { auth, signIn } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { User } from "@prisma/client";
+import { json2csv } from "json-2-csv";
 
 export const addUser = async (newUser: SignUpInfo) => {
   const hashedPassword = hashSync(newUser.password, 12);
@@ -96,6 +97,32 @@ export const getCheckedInUsers = async () => {
     },
   });
   return { error: false, users };
+};
+
+export const getMemberCSV = async () => {
+  const session = await auth();
+  const requestMaker = session?.user as User;
+
+  if (requestMaker.role !== "ADMIN") {
+    return { error: "Not allowed!", file: null };
+  }
+  const users = await prisma.user.findMany({
+    where: {
+      visits: {
+        gt: 0,
+      },
+    },
+    select: {
+      firstName: true,
+      lastName: true,
+      email: true,
+      shirtSize: true,
+      visits: true,
+    },
+  });
+
+  const csv = await json2csv(users);
+  return { error: false, file: csv };
 };
 
 export const userAcceptWaiver = async (id: string) => {

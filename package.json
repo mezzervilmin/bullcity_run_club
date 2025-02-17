@@ -20,6 +20,7 @@
     "cla": "^0.0.3",
     "classnames": "^2.5.1",
     "crypto": "^1.0.1",
+    "json-2-csv": "^5.5.8",
     "next": "15.1.6",
     "next-auth": "^5.0.0-beta.25",
     "react": "^19.0.0",
