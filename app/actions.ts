@@ -2,23 +2,35 @@
 import { prisma } from "@/lib/prisma";
 import { SignUpInfo } from "@/sign-up/page";
 import { redirect } from "next/navigation";
+import { Prisma } from "@prisma/client";
 import { hashSync } from "bcryptjs";
 import { AuthError } from "next-auth";
-import { auth, signIn } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { User } from "@prisma/client";
 import { json2csv } from "json-2-csv";
 
 export const addUser = async (newUser: SignUpInfo) => {
   const hashedPassword = hashSync(newUser.password, 12);
-
-  const user = await prisma.user.create({
-    data: { ...newUser, password: hashedPassword },
-  });
-  if (!user) {
-    return "Issue creating user. Please speak to Run Club Employee.";
+  try {
+    await prisma.user.create({
+      data: { ...newUser, password: hashedPassword },
+    });
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      // The .code property can be accessed in a type-safe manner
+      if (e.code === "P2002") {
+        return {
+          error: "Email already in use",
+        };
+      } else {
+        return {
+          error: "Error with sign up, please speak to run club employee.",
+        };
+      }
+    }
+    throw e;
   }
-  redirect(`/profile`);
 };
 
 export const signInUser = async (email: string, password: string) => {
@@ -38,6 +50,10 @@ export const signInUser = async (email: string, password: string) => {
     }
     throw error;
   }
+};
+
+export const signOutUser = async () => {
+  await signOut({ redirectTo: "/", redirect: true });
 };
 
 export const checkInUser = async (code: string, email: string) => {
@@ -94,6 +110,12 @@ export const getCheckedInUsers = async () => {
       lastCheckIn: {
         gte: new Date(Date.now() - 12 * 60 * 60 * 1000),
       },
+    },
+    select: {
+      id: true,
+      firstName: true,
+      lastName: true,
+      visits: true,
     },
   });
   return { error: false, users };

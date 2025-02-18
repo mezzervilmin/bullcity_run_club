@@ -57,6 +57,7 @@ export const CheckInForm: React.FC = () => {
           <span className="text-red-500">This field is required</span>
         )}
       </div>
+      <div className="uppercase text-center">or</div>
       <div>
         <label
           className="block text-gray-700 text-sm font-bold mb-2"

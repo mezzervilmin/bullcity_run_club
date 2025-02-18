@@ -5,6 +5,7 @@ import { openSans, poppinsHeavy } from "../fonts";
 import Link from "next/link";
 import { signInUser } from "../actions";
 import { useRouter } from "next/navigation";
+import { Spinner } from "./spinner";
 
 type Inputs = {
   email: string;
@@ -20,8 +21,12 @@ export default function SignIn() {
   const router = useRouter();
 
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
+    setLoading(true);
     const { error } = await signInUser(email, password);
+    setLoading(false);
     if (error) {
       setErrorMessage(`${error}`);
     } else {
@@ -87,10 +92,12 @@ export default function SignIn() {
             )}
           </div>
           <div className="mt-8">
-            <input
+            <button
               type="submit"
               className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 w-full rounded"
-            />
+            >
+              {loading ? <Spinner /> : "Submit"}
+            </button>
           </div>
         </form>
       </div>

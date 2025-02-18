@@ -12,9 +12,7 @@ export default function Home() {
           {`Welcome to \nBull City Run Club`}
         </div>
         <Image src="/logo.png" width={500} height={500} alt="Run Club Logo" />
-        <div
-          className={`grid grid-cols-2 lg:w-1/2 gap-4 mt-12 ${openSans.className}`}
-        >
+        <div className={`grid grid-cols-2 gap-4 mt-12 ${openSans.className}`}>
           <Link
             href="/sign-in"
             className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-4 px-4 rounded flex text-center items-center justify-center"

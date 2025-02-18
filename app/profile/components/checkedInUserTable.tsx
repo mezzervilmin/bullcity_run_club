@@ -3,7 +3,9 @@ import { User } from "@prisma/client";
 const KEYS = ["firstName", "lastName", "visits"] as const;
 const HEADERS = ["First name", "Last name", "Total visits"];
 
-export const CheckedInUserTable: React.FC<{ users: User[] }> = ({ users }) => {
+export const CheckedInUserTable: React.FC<{
+  users: Pick<User, "firstName" | "lastName" | "visits" | "id">[];
+}> = ({ users }) => {
   return (
     <table className="w-full">
       <thead>

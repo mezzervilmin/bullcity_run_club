@@ -3,6 +3,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { addUser } from "../actions";
 import { openSans, poppinsHeavy } from "../fonts";
 import { useState } from "react";
+import { useRouter } from "next/router";
+import { Spinner } from "./spinner";
 
 export type SignUpInfo = {
   firstName: string;
@@ -22,13 +24,20 @@ export default function SignUp() {
   } = useForm<SignUpInfo>();
 
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit: SubmitHandler<SignUpInfo> = async (data) => {
+    setLoading(true);
     const res = await addUser({ ...data, dob: new Date(data.dob) });
-    if (res) {
-      setErrorMessage(res);
+    setLoading(false);
+    if (res?.error) {
+      setErrorMessage(res.error);
+    } else {
+      router.push("/sign-in");
     }
   };
+
   return (
     <div className="mx-4 lg:w-1/2 lg:mx-auto">
       <div className={`text-6xl my-4 mx-auto w-fit ${poppinsHeavy.className}`}>
@@ -156,22 +165,28 @@ export default function SignUp() {
             id="shirtSize"
             className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           >
-            <option value="xsmall">x-small</option>
-            <option value="small">small</option>
-            <option value="medium">medium</option>
-            <option value="large">large</option>
-            <option value="xlarge">x-large</option>
-            <option value="xxlarge">xx-large</option>
+            <option value="WXS">Women XSmall</option>
+            <option value="WS">Women Small</option>
+            <option value="WM">Women Medium</option>
+            <option value="WL">Women Large</option>
+            <option value="WXL">Women XL</option>
+            <option value="MS">Men Small</option>
+            <option value="MM">Men Medium</option>
+            <option value="ML">Men Large</option>
+            <option value="MXL">Men XL</option>
+            <option value="MXXL">Men XXL</option>
           </select>
           {errors.shirtSize && (
             <span className="text-red-500">This field is required</span>
           )}
         </div>
         <div className="mt-4">
-          <input
+          <button
             type="submit"
             className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-6 w-full rounded"
-          />
+          >
+            {loading ? <Spinner /> : "Submit"}
+          </button>
           {errorMessage && <span className="text-red-500">{errorMessage}</span>}
         </div>
       </form>
