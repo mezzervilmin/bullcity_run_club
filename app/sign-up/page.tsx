@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { addUser } from "../actions";
 import { openSans, poppinsHeavy } from "../fonts";
 import { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { Spinner } from "./components/spinner";
 
 export type SignUpInfo = {
