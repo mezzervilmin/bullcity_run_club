@@ -5,7 +5,7 @@ import { openSans, poppinsHeavy } from "../fonts";
 import Link from "next/link";
 import { signInUser } from "../actions";
 import { useRouter } from "next/navigation";
-import { Spinner } from "./spinner";
+import { Spinner } from "./components/spinner";
 
 type Inputs = {
   email: string;

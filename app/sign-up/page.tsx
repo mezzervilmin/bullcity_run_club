@@ -4,7 +4,7 @@ import { addUser } from "../actions";
 import { openSans, poppinsHeavy } from "../fonts";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import { Spinner } from "./spinner";
+import { Spinner } from "./components/spinner";
 
 export type SignUpInfo = {
   firstName: string;
