@@ -41,7 +41,7 @@ export default function SignIn() {
         </div>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className={`mb-4 lg:w-1/3 ${openSans.className}`}
+          className={`mb-4 ${openSans.className}`}
         >
           <div>
             <label

@@ -147,6 +147,41 @@ export const getMemberCSV = async () => {
   return { error: false, file: csv };
 };
 
+export const linkEmailToBarcode = async (email: string, code: string) => {
+  const session = await auth();
+  const requestMaker = session?.user as User;
+
+  if (requestMaker.role !== "ADMIN") {
+    return { error: "Not allowed!", file: null };
+  }
+  try {
+    await prisma.user.update({
+      where: {
+        email,
+      },
+      data: {
+        code: parseInt(code),
+      },
+    });
+
+    return { error: false };
+  } catch (e) {
+    if (e instanceof Prisma.PrismaClientKnownRequestError) {
+      // The .code property can be accessed in a type-safe manner
+      if (e.code === "P2002") {
+        return {
+          error: "Code already in use",
+        };
+      } else {
+        return {
+          error: "Email not found",
+        };
+      }
+    }
+    throw e;
+  }
+};
+
 export const userAcceptWaiver = async (id: string) => {
   const user = await prisma.user.update({
     where: {

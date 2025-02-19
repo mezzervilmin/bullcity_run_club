@@ -23,7 +23,7 @@ export const CSVDownloadButton = () => {
   return (
     <button
       onClick={downloadFile}
-      className="bg-yellow-500 hover:bg-yellow-800 text-white font-bold py-2 w-full rounded"
+      className="bg-yellow-500 hover:bg-yellow-800 text-white font-bold p-4 rounded"
     >
       {loading ? <Spinner /> : "Download Member CSV"}
     </button>
