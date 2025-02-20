@@ -19,15 +19,15 @@ export const LinkBarcodeForm: React.FC = () => {
     setFocus,
   } = useForm<Inputs>();
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, code }) => {
     setLoading(true);
     const { error } = await linkEmailToBarcode(email, code);
     setLoading(false);
     if (error) {
-      //   setErrorMessage(`${error}`);
-    } // clear input
-    else {
+      setErrorMessage(`${error}`);
+    } else {
       // clear inputs
       setFocus("code");
       reset();
@@ -82,7 +82,12 @@ export const LinkBarcodeForm: React.FC = () => {
         )}
       </div>
 
-      <div className="mt-8">
+      <div className="mt-4">
+        {errorMessage && (
+          <div className="text-red-500 mb-2">
+            <span>{errorMessage}</span>
+          </div>
+        )}
         <button
           type="submit"
           className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-2 w-full rounded"

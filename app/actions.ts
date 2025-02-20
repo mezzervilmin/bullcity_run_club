@@ -11,14 +11,15 @@ import { User } from "@prisma/client";
 import { json2csv } from "json-2-csv";
 
 export const addUser = async (newUser: SignUpInfo) => {
-  const hashedPassword = hashSync(newUser.password, 12);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { confirmPassword, ...user } = newUser;
+  const hashedPassword = hashSync(user.password, 12);
   try {
     await prisma.user.create({
-      data: { ...newUser, password: hashedPassword },
+      data: { ...user, password: hashedPassword },
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      // The .code property can be accessed in a type-safe manner
       if (e.code === "P2002") {
         return {
           error: "Email already in use",
@@ -62,40 +63,41 @@ export const checkInUser = async (code: string, email: string) => {
   if (requestMaker.role !== "ADMIN") {
     return { error: "Not allowed!" };
   }
-
-  let user;
-  if (code) {
-    user = await prisma.user.update({
-      where: {
-        code: parseInt(code),
-      },
-      data: {
-        visits: {
-          increment: 1,
+  try {
+    if (code) {
+      await prisma.user.update({
+        where: {
+          code: parseInt(code),
         },
-        lastCheckIn: new Date(),
-      },
-    });
-  } else {
-    user = await prisma.user.update({
-      where: {
-        email,
-      },
-      data: {
-        visits: {
-          increment: 1,
+        data: {
+          visits: {
+            increment: 1,
+          },
+          lastCheckIn: new Date(),
         },
-        lastCheckIn: new Date(),
-      },
-    });
+      });
+    } else {
+      await prisma.user.update({
+        where: {
+          email,
+        },
+        data: {
+          visits: {
+            increment: 1,
+          },
+          lastCheckIn: new Date(),
+        },
+      });
+    }
+    revalidatePath(`/profile`);
+    return {
+      error: false,
+    };
+  } catch {
+    return {
+      error: "Issue checking in member. Try again",
+    };
   }
-  if (!user) {
-    return { error: "Issue checking in member. Try again" };
-  }
-  revalidatePath(`/profile`);
-  return {
-    error: false,
-  };
 };
 
 export const getCheckedInUsers = async () => {

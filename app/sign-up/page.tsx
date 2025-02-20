@@ -14,6 +14,7 @@ export type SignUpInfo = {
   dob: Date;
   shirtSize: string;
   password: string;
+  confirmPassword: string;
 };
 
 export default function SignUp() {
@@ -21,6 +22,7 @@ export default function SignUp() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<SignUpInfo>();
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -151,6 +153,32 @@ export default function SignUp() {
           />
           {errors.password && (
             <span className="text-red-500">This field is required</span>
+          )}
+        </div>
+        <div className="mb-2">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            {...register("confirmPassword", {
+              required: true,
+              validate: (val: string) => {
+                if (watch("password") != val) {
+                  return "Your passwords do not match";
+                }
+              },
+            })}
+            id="confirmPassword"
+            type="password"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          {errors.confirmPassword && (
+            <span className="text-red-500">
+              {errors.confirmPassword.message ?? "This field is required"}
+            </span>
           )}
         </div>
         <div className="mb-2">

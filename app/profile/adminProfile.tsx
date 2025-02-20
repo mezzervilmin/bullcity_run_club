@@ -9,13 +9,13 @@ import { LinkBarcodeForm } from "./components/linkBarcodeForm";
 export const AdminProfile: React.FC<{ user: User }> = async () => {
   const checkedInUsers = await getCheckedInUsers();
   return (
-    <div className={`mt-8 ${poppinsHeavy.className}`}>
+    <div className={`${poppinsHeavy.className}`}>
       <div className="text-4xl w-fit mx-auto text-blue-800">
         Run Club Admin Panel
       </div>
-      <div className="mx-auto w-3/4 grid grid-cols-2 h-screen">
-        <div className="mt-8">
-          <div className="mb-8">
+      <div className="mx-auto w-3/4 grid grid-cols-2 h-screen gap-4">
+        <div className="mt-4">
+          <div className="mb-4">
             <CSVDownloadButton />
           </div>
           <div className="mb-8">
