@@ -5,6 +5,7 @@ import { CheckedInUserTable } from "./components/checkedInUserTable";
 import { CSVDownloadButton } from "./components/csvDownloadButton";
 import { getCheckedInUsers } from "../actions";
 import { LinkBarcodeForm } from "./components/linkBarcodeForm";
+import { ClearVisitsButton } from "./components/clearVisitsButton";
 
 export const AdminProfile: React.FC<{ user: User }> = async () => {
   const checkedInUsers = await getCheckedInUsers();
@@ -15,8 +16,9 @@ export const AdminProfile: React.FC<{ user: User }> = async () => {
       </div>
       <div className="mx-auto w-3/4 grid grid-cols-2 h-screen gap-4">
         <div className="mt-4">
-          <div className="mb-4">
+          <div className="mb-4 grid grid-cols-2 gap-2">
             <CSVDownloadButton />
+            <ClearVisitsButton />
           </div>
           <div className="mb-8">
             <div className="text-2xl">Check in users</div>

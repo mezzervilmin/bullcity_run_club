@@ -169,7 +169,6 @@ export const linkEmailToBarcode = async (email: string, code: string) => {
     return { error: false };
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      // The .code property can be accessed in a type-safe manner
       if (e.code === "P2002") {
         return {
           error: "Code already in use",
@@ -197,4 +196,23 @@ export const userAcceptWaiver = async (id: string) => {
     return "Issue accepting waiver, please speak to Run Club employee";
   }
   redirect(`/profile`);
+};
+
+export const clearVisits = async () => {
+  const session = await auth();
+  const requestMaker = session?.user as User;
+
+  if (requestMaker.role !== "ADMIN") {
+    return { error: "Not allowed!" };
+  }
+  try {
+    await prisma.user.updateMany({
+      data: {
+        visits: 0,
+      },
+    });
+    return { error: null };
+  } catch {
+    return { error: "Error resetting visits." };
+  }
 };

@@ -101,7 +101,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
       },
     },
     jwt: {
-      maxAge: 60 * 60 * 24 * 30,
+      maxAge: 12 * 60 * 60 * 1000,
       async encode(arg) {
         return (arg.token?.sessionId as string) ?? encode(arg);
       },
