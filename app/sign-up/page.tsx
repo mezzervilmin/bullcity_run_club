@@ -13,6 +13,8 @@ export type SignUpInfo = {
   phone: string;
   dob: Date;
   shirtSize: string;
+  emergencyContactName: string;
+  emergencyContactNumber: string;
   password: string;
   confirmPassword: string;
 };
@@ -135,6 +137,39 @@ export default function SignUp() {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           />
           {errors.dob && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>
+        <div className="mb-2">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="emergencyName"
+          >
+            Emergency contact name
+          </label>
+          <input
+            {...register("emergencyContactName", { required: true })}
+            id="emergencyName"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          {errors.emergencyContactName && (
+            <span className="text-red-500">This field is required</span>
+          )}
+        </div>{" "}
+        <div className="mb-2">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="emergencyPhone"
+          >
+            Emergency contact phone number
+          </label>
+          <input
+            {...register("emergencyContactNumber", { required: true })}
+            type="tel"
+            id="phone"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+          {errors.emergencyContactNumber && (
             <span className="text-red-500">This field is required</span>
           )}
         </div>
