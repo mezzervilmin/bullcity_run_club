@@ -1,6 +1,7 @@
 import { poppinsHeavy } from "@/app/fonts";
 import { User } from "@prisma/client";
 import { SignInBarcode } from "./components/barcode";
+import { AddCodeForm } from "./components/addCodeForm";
 
 export const UserProfile: React.FC<{ user: User }> = ({ user }) => {
   return (
@@ -9,9 +10,13 @@ export const UserProfile: React.FC<{ user: User }> = ({ user }) => {
     >
       <div className="my-auto">
         <div className="text-4xl whitespace-pre-line text-center">{`Welcome back,\n${user?.firstName}`}</div>
-        {user.code && (
-          <div>
+        {user.code ? (
+          <div className="mt-8">
             <SignInBarcode code={`${user.code}`} />
+          </div>
+        ) : (
+          <div className="my-12">
+            <AddCodeForm user={user} />
           </div>
         )}
 

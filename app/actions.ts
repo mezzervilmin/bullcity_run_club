@@ -1,7 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
 import { SignUpInfo } from "@/sign-up/page";
-import { redirect } from "next/navigation";
 import { Prisma } from "@prisma/client";
 import { hashSync } from "bcryptjs";
 import { AuthError } from "next-auth";
@@ -9,6 +8,7 @@ import { auth, signIn, signOut } from "@/auth";
 import { revalidatePath } from "next/cache";
 import { User } from "@prisma/client";
 import { json2csv } from "json-2-csv";
+import { redirect } from "next/navigation";
 
 export const addUser = async (newUser: SignUpInfo) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -36,7 +36,11 @@ export const addUser = async (newUser: SignUpInfo) => {
 
 export const signInUser = async (email: string, password: string) => {
   try {
-    await signIn("credentials", { email, password, redirect: false });
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
     return {
       error: false,
     };
@@ -150,12 +154,6 @@ export const getMemberCSV = async () => {
 };
 
 export const linkEmailToBarcode = async (email: string, code: string) => {
-  const session = await auth();
-  const requestMaker = session?.user as User;
-
-  if (requestMaker.role !== "ADMIN") {
-    return { error: "Not allowed!", file: null };
-  }
   try {
     await prisma.user.update({
       where: {
@@ -165,7 +163,7 @@ export const linkEmailToBarcode = async (email: string, code: string) => {
         code: parseInt(code),
       },
     });
-
+    revalidatePath(`/profile`);
     return { error: false };
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -183,10 +181,16 @@ export const linkEmailToBarcode = async (email: string, code: string) => {
   }
 };
 
-export const userAcceptWaiver = async (id: string) => {
+export const userAcceptWaiver = async () => {
+  const session = await auth();
+  const requestMaker = session?.user as User;
+
+  if (!requestMaker) {
+    redirect("/sign-in");
+  }
   const user = await prisma.user.update({
     where: {
-      id,
+      id: requestMaker.id,
     },
     data: {
       acceptWaiver: true,
@@ -195,7 +199,6 @@ export const userAcceptWaiver = async (id: string) => {
   if (!user) {
     return "Issue accepting waiver, please speak to Run Club employee";
   }
-  redirect(`/profile`);
 };
 
 export const clearVisits = async () => {

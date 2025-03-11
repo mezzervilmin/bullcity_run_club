@@ -12,6 +12,9 @@ export default async function Profile() {
   if (!session) {
     redirect("/sign-in");
   }
+  if (!user.acceptWaiver) {
+    redirect("/waiver");
+  }
 
   return (
     <div>

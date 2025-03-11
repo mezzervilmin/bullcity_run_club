@@ -158,9 +158,9 @@ export default function SignUp() {
         <div className="mb-2">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="password"
+            htmlFor="confirmPassword"
           >
-            Password
+            Confirm Password
           </label>
           <input
             {...register("confirmPassword", {

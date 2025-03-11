@@ -1,20 +1,19 @@
 "use client";
-
 import { userAcceptWaiver } from "@/app/actions";
 import { openSans, poppinsHeavy } from "@/fonts";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-export default function Waiver({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default function Waiver() {
   const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
+
   const acceptWaiver = async () => {
-    const id = (await params).id;
-    const res = await userAcceptWaiver(id);
+    const res = await userAcceptWaiver();
     if (res) {
       setErrorMessage(res);
+    } else {
+      router.push("/profile");
     }
   };
   return (
