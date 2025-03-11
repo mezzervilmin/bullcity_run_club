@@ -100,6 +100,12 @@ export default function SignIn() {
             </button>
           </div>
         </form>
+        <div className={`${openSans.className}`}>
+          <span>{`Don't have an account on the new app yet? `}</span>
+          <Link href="/sign-up" className="text-blue-800 underline">
+            Sign up here!
+          </Link>
+        </div>
       </div>
     </div>
   );
