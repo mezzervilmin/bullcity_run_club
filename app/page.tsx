@@ -17,13 +17,13 @@ export default function Home() {
             href="/sign-in"
             className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-4 px-4 rounded flex text-center items-center justify-center"
           >
-            Returning Member
+            Log in
           </Link>
           <Link
             href="/sign-up"
             className="bg-blue-800 hover:bg-blue-950 text-white font-bold py-4 px-4 rounded flex text-center items-center justify-center"
           >
-            New Member
+            Sign up
           </Link>
         </div>
       </div>
