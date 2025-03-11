@@ -18,6 +18,8 @@ async function main() {
           shirtSize: elements[3],
           visits: parseInt(elements[5]),
           code: parseInt(elements[4]),
+          emergencyContactName: "",
+          emergencyContactNumber: "",
         },
       });
     } catch {
