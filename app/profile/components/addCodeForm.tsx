@@ -39,7 +39,7 @@ export const AddCodeForm: React.FC<{ user: User }> = ({ user }) => {
           className="block text-gray-700 text-sm font-bold mb-2"
           htmlFor="code"
         >
-          Code
+          Link Existing Run Club Barcode!
         </label>
         <input
           {...register("code", { required: true })}
