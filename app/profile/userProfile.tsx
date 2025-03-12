@@ -17,6 +17,10 @@ export const UserProfile: React.FC<{ user: User }> = ({ user }) => {
         ) : (
           <div className="my-12">
             <AddCodeForm user={user} />
+            <div>
+              {`Don't have a barcode yet? See the check in desk to finalize your
+              registration!`}
+            </div>
           </div>
         )}
 
