@@ -143,6 +143,10 @@ export const getMemberCSV = async () => {
     select: {
       firstName: true,
       lastName: true,
+      phone: true,
+      emergencyContactName: true,
+      emergencyContactNumber: true,
+      code: true,
       email: true,
       shirtSize: true,
       visits: true,
