@@ -22,6 +22,7 @@ export const CheckInForm: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, code }) => {
+    setErrorMessage("");
     setLoading(true);
     const { error } = await checkInUser(code, email);
     setLoading(false);

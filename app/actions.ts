@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import { User } from "@prisma/client";
 import { json2csv } from "json-2-csv";
 import { redirect } from "next/navigation";
+import { createTransport } from "nodemailer";
 
 export const addUser = async (newUser: SignUpInfo) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -221,5 +222,60 @@ export const clearVisits = async () => {
     return { error: null };
   } catch {
     return { error: "Error resetting visits." };
+  }
+};
+
+export const sendPasswordReset = async (email: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      email,
+    },
+  });
+  if (!user) {
+    return;
+  }
+  const transporter = createTransport({
+    host: "smtp.sendgrid.net",
+    port: 587,
+    auth: {
+      user: "apikey",
+      pass: process.env.SENDGRID_API_KEY,
+    },
+  });
+  transporter.sendMail(
+    {
+      from: "bcrcdowntown@bullcityrunning.com",
+      to: user.email,
+      subject: "Password Reset Request",
+      html: `
+    <p>Hi, ${user.firstName},</p>
+    <p>Here's your password recovery link</p>
+    <a href="https://runclub.bullcityrunning.com/reset-password/${user.id}">Reset password here</a>
+    <p>Love, Bull City Running Co</p>
+  `,
+    },
+    function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    }
+  );
+};
+
+export const resetPassword = async (id: string, password: string) => {
+  const hashedPassword = hashSync(password, 12);
+  try {
+    await prisma.user.update({
+      where: {
+        id,
+      },
+      data: { password: hashedPassword },
+    });
+  } catch {
+    return {
+      error: "Error with reset, please speak to run club employee.",
+    };
   }
 };
