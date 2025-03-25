@@ -118,6 +118,9 @@ export const getCheckedInUsers = async () => {
         gte: new Date(Date.now() - 12 * 60 * 60 * 1000),
       },
     },
+    orderBy: {
+      lastCheckIn: "desc",
+    },
     select: {
       id: true,
       firstName: true,

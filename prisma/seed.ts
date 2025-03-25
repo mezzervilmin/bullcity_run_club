@@ -1,29 +1,22 @@
 import { PrismaClient } from "@prisma/client";
-import fs from "node:fs";
+import { migrationData } from "./Participants";
 
 const prisma = new PrismaClient();
 async function main() {
-  const data = fs.readFileSync("./prisma/Participants.sql", "utf8");
-  data.split("\n").forEach(async (line) => {
-    let elements = line.slice(1, -2).split(", ");
-    elements = elements.map((e) => e.replace(/'/g, ""));
-    const firstName = elements[1].split(" ")[0];
-    const lastName = elements[1].split(" ").slice(1).join(" ");
+  migrationData.data.forEach(async (user) => {
     try {
-      await prisma.user.create({
+      await prisma.user.update({
+        where: {
+          code: user.code,
+        },
         data: {
-          firstName: firstName,
-          lastName: lastName,
-          email: elements[2],
-          shirtSize: elements[3],
-          visits: parseInt(elements[5]),
-          code: parseInt(elements[4]),
-          emergencyContactName: "",
-          emergencyContactNumber: "",
+          visits: {
+            increment: 1,
+          },
         },
       });
     } catch {
-      console.log(`email is ${elements[2]}`);
+      console.log(`email is ${user.email} and code is ${user.code}`);
     }
   });
 }
