@@ -10,10 +10,7 @@ import { User } from "@prisma/client";
 type ComponentProps = {
   isOpen: boolean;
   toClose: () => void;
-  memberInfo: Pick<
-    User,
-    "firstName" | "lastName" | "emergencyContactName" | "emergencyContactNumber"
-  > | null;
+  memberInfo?: User;
 };
 
 export default function UserInfoModal({
@@ -43,7 +40,7 @@ export default function UserInfoModal({
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <DialogTitle
                     as="h3"
-                    className="text-base font-semibold text-gray-900"
+                    className="text-base font-bold text-gray-900"
                   >
                     Member Information
                   </DialogTitle>
@@ -51,17 +48,25 @@ export default function UserInfoModal({
                     <table>
                       <tbody>
                         <tr>
-                          <td className="pr-2">Name:</td>
+                          <td className="pr-2 font-semibold">Name:</td>
                           <td>
                             {`${memberInfo?.firstName} ${memberInfo?.lastName}`}
                           </td>
                         </tr>
                         <tr>
-                          <td className="pr-2">Emergency Contact Name:</td>
+                          <td className="pr-2 font-semibold">Phone Number:</td>
+                          <td>{`${memberInfo?.phone}`}</td>
+                        </tr>
+                        <tr>
+                          <td className="pr-2 font-semibold">
+                            Emergency Contact Name:
+                          </td>
                           <td>{`${memberInfo?.emergencyContactName}`}</td>
                         </tr>
                         <tr>
-                          <td className="pr-2">Emergency Contact Number:</td>
+                          <td className="pr-2 font-semibold">
+                            Emergency Contact Number:
+                          </td>
                           <td>{memberInfo?.emergencyContactNumber}</td>
                         </tr>
                       </tbody>

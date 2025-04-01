@@ -9,11 +9,11 @@ const HEADERS = ["First name", "Last name", "Total visits"];
 export const CheckedInUserTable: React.FC<{
   users: User[];
 }> = ({ users }) => {
-  const [userInfo, setUserInfo] = useState<User | null>(null);
+  const [userInfo, setUserInfo] = useState<User | undefined>(undefined);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const closeModal = () => {
     setModalIsOpen(false);
-    setUserInfo(null);
+    setUserInfo(undefined);
   };
 
   return (
