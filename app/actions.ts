@@ -17,7 +17,11 @@ export const addUser = async (newUser: SignUpInfo) => {
   const hashedPassword = hashSync(user.password, 12);
   try {
     await prisma.user.create({
-      data: { ...user, password: hashedPassword },
+      data: {
+        ...user,
+        password: hashedPassword,
+        email: user.email.toLowerCase(),
+      },
     });
   } catch (e) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
@@ -38,7 +42,7 @@ export const addUser = async (newUser: SignUpInfo) => {
 export const signInUser = async (email: string, password: string) => {
   try {
     await signIn("credentials", {
-      email,
+      email: email.toLowerCase(),
       password,
       redirect: false,
     });
@@ -84,7 +88,7 @@ export const checkInUser = async (code: string, email: string) => {
     } else {
       await prisma.user.update({
         where: {
-          email,
+          email: email.toLowerCase(),
         },
         data: {
           visits: {
@@ -165,7 +169,7 @@ export const linkEmailToBarcode = async (email: string, code: string) => {
   try {
     await prisma.user.update({
       where: {
-        email,
+        email: email.toLowerCase(),
       },
       data: {
         code: parseInt(code),
@@ -231,7 +235,7 @@ export const clearVisits = async () => {
 export const sendPasswordReset = async (email: string) => {
   const user = await prisma.user.findUnique({
     where: {
-      email,
+      email: email.toLowerCase(),
     },
   });
   if (!user) {
