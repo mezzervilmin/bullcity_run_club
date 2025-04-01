@@ -125,12 +125,6 @@ export const getCheckedInUsers = async () => {
     orderBy: {
       lastCheckIn: "desc",
     },
-    select: {
-      id: true,
-      firstName: true,
-      lastName: true,
-      visits: true,
-    },
   });
   return { error: false, users };
 };
