@@ -280,3 +280,17 @@ export const resetPassword = async (id: string, password: string) => {
     };
   }
 };
+
+export const getBirthdays = async () => {
+  const session = await auth();
+  const requestMaker = session?.user as User;
+
+  if (requestMaker.role !== "ADMIN") {
+    return { error: "Not allowed!", users: [] };
+  }
+
+  const users =
+    await prisma.$queryRaw`select "firstName", "lastName", dob, code from (select *, (extract(year from age(dob)) + 1) *  interval '1 year' + dob "next_birth_day" from "User") as users_with_upcoming_birth_days where next_birth_day between now() and now() + '7 days'`;
+  console.log(users);
+  return { error: false, users };
+};
